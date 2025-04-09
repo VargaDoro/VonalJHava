@@ -16,9 +16,26 @@ public class Vonal {
     private int eltolas;
     
     public Vonal(String szin, String forma, int hossz, int eltolas){
+        boolean joSzin = szin.equals(Vonal.PIROS_SZIN) 
+                || szin.equals(Vonal.ZOLD_SZIN) 
+                || szin.equals(Vonal.SARGA_SZIN); 
+        if(!joSzin){
+            throw new IllegalArgumentException("Nem létező szín: " + szin);
+        }
+        this.szin = szin;
+        boolean joForma = forma.equals(Vonal.SZAGGATOTT) 
+                || forma.equals(Vonal.PONTOZOTT) 
+                || forma.equals(Vonal.DUPLA) 
+                || forma.equals(Vonal.NORMAL); 
+        if(!joSzin){
+            throw new IllegalArgumentException("Nem létező forma: " + szin);
+        }
         this.szin = szin;
         this.forma = forma;
         this.hossz = hossz;
+        if (eltolas < 0){
+            eltolas = 0;
+        }
         this.eltolas = eltolas;
     }
     
@@ -26,13 +43,17 @@ public class Vonal {
         return "A vonal adatai: szin: "+szin+", forma: '"+formaAlakzat()+"', hossz: "+hossz+", eltolás: "+eltolas;
     }
     
-    
     public String Rajz(){
         String megtettUt = "";
         for (int i = 0; i < hossz; i++) {
             megtettUt += formaSzin();
         }
-        return megtettUt;
+        String eltolas = " ";
+        String megtettUtElott = "";
+        for (int j = 0; j < getEltolas(); j++){
+            megtettUtElott += eltolas;
+        }
+        return megtettUtElott + megtettUt;
     }
     
     public String formaAlakzat(){
@@ -100,6 +121,9 @@ public class Vonal {
     }
     
     public void setEltolas(int eltolas){
+        if (eltolas < 0){
+            eltolas = 0;
+        }
         this.eltolas = eltolas;
     }
     
